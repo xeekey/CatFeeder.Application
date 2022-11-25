@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CatFeeder.View.SchedulerPage"
+             xmlns:viewmodel="clr-namespace:CatFeeder.ViewModel"
+             x:DataType="viewmodel:SchedulerPageViewModel">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+    
+        <ScrollView Grid.Row="0">
+            <StackLayout>
+                
+                <ActivityIndicator 
+                    IsVisible="{Binding IsBusy}"
+                    IsRunning="{Binding IsBusy}"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="2" />
+            <ImageButton
+                        Source="test.png"
+                        Grid.Row="0" 
+                        CornerRadius="35"
+                        Margin="0,0,20,22"
+                        WidthRequest="70" 
+                        HeightRequest="70" 
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        Command="{Binding CreateTimerCommand}"
+                        IsEnabled="{Binding IsNotBusy}"/>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
