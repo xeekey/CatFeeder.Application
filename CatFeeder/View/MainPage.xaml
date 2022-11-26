@@ -23,13 +23,6 @@
                 FontSize="32"
                 HorizontalOptions="Center" />
 
-            <Label
-                Text="Velkommen til kattenes personlige fodremaskine"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome Text"
-                FontSize="18"
-                HorizontalOptions="Center" />
-
             <Button
                 x:Name="btnFeedDefault"
                 Text="Skyd noget mad ud"

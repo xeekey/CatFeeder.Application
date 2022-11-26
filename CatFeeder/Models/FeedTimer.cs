@@ -1,5 +1,4 @@
-﻿using CatFeeder.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +8,7 @@ namespace CatFeeder.Models
 {
     public class FeedTimer
     {
-        public TimeSpan TimeOfDay { get; set; }
-        public List<Weekdays> RepeatingDays { get; set; }
-
+        public string Date { get; set; }
+        public string Time { get; set; } 
     }
 }

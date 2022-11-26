@@ -17,8 +17,10 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-		builder.Services.AddSingleton<MQTTService>();
-        builder.Services.AddSingleton<FeederService>();
+        string dbPath = FileAccessHelper.GetLocalFilePath("timers.db3");
+
+        builder.Services.AddSingleton<MQTTService>();
+        builder.Services.AddSingleton(s => ActivatorUtilities.CreateInstance<TimerService>(s, dbPath));
         builder.Services.AddSingleton<MainPageViewModel>();
 		builder.Services.AddSingleton<SchedulerPageViewModel>();
 		builder.Services.AddSingleton<CreateTimerPageViewModel>();
@@ -26,7 +28,6 @@ public static class MauiProgram
 		builder.Services.AddSingleton<SchedulerPage>();
 		builder.Services.AddTransient<CreateTimerPage>();
 
-
-		return builder.Build();
+        return builder.Build();
 	}
 }

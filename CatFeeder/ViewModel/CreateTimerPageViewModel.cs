@@ -1,16 +1,10 @@
 ﻿using CatFeeder.Models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CatFeeder.ViewModel
 {
     public partial class CreateTimerPageViewModel : BaseViewModel
     {
+
         public FeedTimer FeedTimer { get; set; }
 
         public CreateTimerPageViewModel() 
@@ -21,23 +15,23 @@ namespace CatFeeder.ViewModel
         [ObservableProperty]
         TimeSpan currentTime = DateTime.Now.TimeOfDay;
 
-        async Task CreateTimer()
-        {
-            if (IsBusy)
-                return;
-            try
-            {
-                IsBusy = true;
-                FeedTimer.TimeOfDay = currentTime;
+        //async Task CreateTimer()
+        //{
+        //    if (IsBusy)
+        //        return;
+        //    try
+        //    {
+        //        IsBusy = true;
+        //        FeedTimer.Date = currentTime;
 
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                await Shell.Current.DisplayAlert("Error", "Something went wrong! Contact Kasper", "OK!");
-            }
-            finally { IsBusy = false; }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine(ex);
+        //        await Shell.Current.DisplayAlert("Error", "Something went wrong! Contact Kasper", "OK!");
+        //    }
+        //    finally { IsBusy = false; }
+        //}
 
 
     }
