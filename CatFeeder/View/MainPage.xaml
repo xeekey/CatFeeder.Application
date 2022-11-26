@@ -35,7 +35,7 @@
                 Text="Skyd noget mad ud"
                 SemanticProperties.Hint="Triggers the feeding"
                 HorizontalOptions="Center" 
-                Command="{Binding CommandStuffCommand}"
+                Command="{Binding FeedCommand}"
                 IsEnabled="{Binding IsNotBusy}"/>
 
             <ActivityIndicator IsVisible="{Binding IsBusy}"

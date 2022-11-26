@@ -15,18 +15,18 @@ namespace CatFeeder.ViewModel
 {
     public partial class MainPageViewModel : BaseViewModel
     {
-        FeederService feederService;
+        MQTTService mqttService;
         public ObservableCollection<FeedResponse> FeedResponses { get; set; }
         
-        public MainPageViewModel(FeederService FeederService)
+        public MainPageViewModel(MQTTService MqttService)
         {
             Title = "Feeder";
-            this.feederService = FeederService;
+            this.mqttService = MqttService;
 
         }
 
         [RelayCommand]
-        async Task CommandStuffAsync()
+        async Task FeedAsync()
         {
             if (IsBusy)
                 return;
@@ -34,15 +34,7 @@ namespace CatFeeder.ViewModel
             try
             {
                 IsBusy = true;
-                var responses = 1;
-                await Task.Delay(100000);
-                //if (FeedResponses != 0)
-                    //FeedResponses = 9;
-                    //FeedResponses.Clear();
-
-                //foreach (var response in responses)
-                //    FeedResponses.Add(response);
-
+                await mqttService.Feed();
             }
             catch (Exception ex)
             {

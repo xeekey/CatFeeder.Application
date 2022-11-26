@@ -7,6 +7,28 @@
              x:DataType="viewmodel:CreateTimerPageViewModel">
     
     <VerticalStackLayout>
-        <TimePicker Time="{Binding CurrentTime}"/>
+        <!--<TimePicker Time="{Binding CurrentTime}"/>
+        <CollectionView ItemsSource="{Binding WeekDays}"
+                ItemsLayout="HorizontalList">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition Width="140" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="1"
+                       Text="{Binding Day}"
+                       FontAttributes="Bold"
+                       LineBreakMode="TailTruncation" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="Opret"/>-->
     </VerticalStackLayout>
 </ContentPage>
