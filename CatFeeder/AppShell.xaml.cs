@@ -1,6 +1,4 @@
-﻿using CatFeeder.Interfaces;
-using CatFeeder.View;
-using CommunityToolkit;
+﻿using CatFeeder.View;
 
 namespace CatFeeder;
 

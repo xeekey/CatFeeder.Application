@@ -5,57 +5,53 @@
              xmlns:viewmodel="clr-namespace:CatFeeder.ViewModel"
              xmlns:model="clr-namespace:CatFeeder.Models"
              x:DataType="viewmodel:SchedulerPageViewModel">
-    
 
-        <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-                <ScrollView Grid.Row="0">
-                    <CollectionView Grid.Row="3" ItemsSource="{Binding Timers}" SelectionMode="Single">
+
+            <ScrollView Grid.Row="0">
+                <StackLayout>
+                    <ActivityIndicator 
+                            IsVisible="{Binding IsBusy}"
+                            IsRunning="{Binding IsBusy}"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="CenterAndExpand"
+                            Grid.Row="0"/>
+
+                    <CollectionView Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Timers}" SelectionMode="Single">
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="model:FeedTimer">
                                 <Grid Padding="10">
                                     <Frame HeightRequest="125" Padding="0">
                                         <Grid Padding ="0" ColumnDefinitions="250, *">
-                                        <Label Text="{Binding Date}" VerticalOptions="Center" HorizontalOptions="Center"/>                                                                                                                          
-                                            <!--<VerticalStackLayour Grid.Column="1" Padding="10" VerticalOptions="Center"/>-->
+                                            <Label Text="{Binding Date}" VerticalOptions="Center" HorizontalOptions="Center"/>
                                         </Grid>
                                     </Frame>
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-                </ScrollView>
+                </StackLayout>
+            </ScrollView>
 
 
-            <ScrollView Grid.Row="1">
-                <StackLayout>
-                
-                    <ActivityIndicator 
-                        IsVisible="{Binding IsBusy}"
-                        IsRunning="{Binding IsBusy}"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="CenterAndExpand"
-                        Grid.RowSpan="2"
-                        Grid.ColumnSpan="2" />
-                <ImageButton
+            <ImageButton
                             Source="test.png"
-                            Grid.Row="0" 
+                            Grid.Row="0"
+                            Opacity="0.5"
                             CornerRadius="35"
                             Margin="0,0,20,22"
                             WidthRequest="70" 
                             HeightRequest="70" 
-                            VerticalOptions="Center"
-                            HorizontalOptions="Center"
+                            VerticalOptions="End"
+                            HorizontalOptions="End"
                             Command="{Binding CreateTimerCommand}"
+                            IsVisible="{Binding IsNotBusy}"
                             IsEnabled="{Binding IsNotBusy}"/>
-                </StackLayout>
-            </ScrollView>
         </Grid>
     </RefreshView>
-
-
 </ContentPage>
