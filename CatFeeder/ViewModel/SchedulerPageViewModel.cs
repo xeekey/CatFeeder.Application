@@ -11,6 +11,8 @@ using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
 using CatFeeder.View;
 using CatFeeder.Models;
+using MvvmHelpers;
+using CatFeeder.Interfaces;
 
 namespace CatFeeder.ViewModel
 {
@@ -18,12 +20,12 @@ namespace CatFeeder.ViewModel
     {
         TimerService timerService;
 
-        public ObservableCollection<FeedTimer> Timers { get; } = new();
+        public ObservableRangeCollection<FeedTimer> Timers { get; } = new();
         public SchedulerPageViewModel(TimerService timerService)
         {
             Title = "Planlægning";
             this.timerService = timerService;
-            GetTimersAsync();
+            Refresh();
         }
 
         [RelayCommand]
@@ -35,10 +37,7 @@ namespace CatFeeder.ViewModel
             try
             {
                 IsBusy = true;
-                //var timers = timerService.GetAllTimers();
-
-
-                var timers = new List<FeedTimer>() { new FeedTimer { Date = "ghe"} };
+                var timers = await timerService.GetAllTimers();
 
                 if (Timers.Count != 0)
                     Timers.Clear();
@@ -70,7 +69,24 @@ namespace CatFeeder.ViewModel
                 Debug.WriteLine(ex);
                 await Shell.Current.DisplayAlert("Fejl", "Noget gik galt! Kontakt Kasper", "OK!");
             }
-            finally { IsBusy = false; }
+            finally 
+            {
+                IsBusy = false; 
+            }
+        }
+
+        [RelayCommand]
+        async Task Refresh()
+        {
+            IsBusy = true;
+            
+            Timers.Clear();
+            
+            var timers = await timerService.GetAllTimers();
+            
+            Timers.AddRange(timers);
+
+            IsBusy = false;
         }
     }
 }

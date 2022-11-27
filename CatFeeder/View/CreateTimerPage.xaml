@@ -5,30 +5,28 @@
              Title="CreateTimerPage"
              xmlns:viewmodel="clr-namespace:CatFeeder.ViewModel"
              x:DataType="viewmodel:CreateTimerPageViewModel">
-    
-    <VerticalStackLayout>
-        <!--<TimePicker Time="{Binding CurrentTime}"/>
-        <CollectionView ItemsSource="{Binding WeekDays}"
-                ItemsLayout="HorizontalList">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="35" />
-                            <RowDefinition Height="35" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="70" />
-                            <ColumnDefinition Width="140" />
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="1"
-                       Text="{Binding Day}"
-                       FontAttributes="Bold"
-                       LineBreakMode="TailTruncation" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-        <Button Text="Opret"/>-->
-    </VerticalStackLayout>
+
+    <ContentPage.Content>
+        <StackLayout Padding="20">
+            <Label Text="Name:"
+                   Style="{StaticResource LabelMedium}"/>
+            <DatePicker Date="{Binding Date}" />
+            <TimePicker Time="{Binding Time}" />
+
+            <ActivityIndicator
+                HorizontalOptions="Center"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="Center" />
+
+            <Button
+                Padding="20,0"
+                Command="{Binding CreateTimerCommand}"
+                HorizontalOptions="Center"
+                IsEnabled="{Binding IsNotBusy}"
+                Text="Save"
+                VerticalOptions="EndAndExpand"
+                Style="{StaticResource ButtonOutline}"/>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

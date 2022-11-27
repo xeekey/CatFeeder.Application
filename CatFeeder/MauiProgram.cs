@@ -17,10 +17,9 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-        string dbPath = FileAccessHelper.GetLocalFilePath("timers.db3");
 
         builder.Services.AddSingleton<MQTTService>();
-        builder.Services.AddSingleton(s => ActivatorUtilities.CreateInstance<TimerService>(s, dbPath));
+        builder.Services.AddSingleton<TimerService>();
         builder.Services.AddSingleton<MainPageViewModel>();
 		builder.Services.AddSingleton<SchedulerPageViewModel>();
 		builder.Services.AddSingleton<CreateTimerPageViewModel>();

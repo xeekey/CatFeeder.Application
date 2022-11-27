@@ -6,52 +6,56 @@
              xmlns:model="clr-namespace:CatFeeder.Models"
              x:DataType="viewmodel:SchedulerPageViewModel">
     
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
 
-        <StackLayout Grid.Row="0">
-            <CollectionView Grid.Row="3" ItemsSource="{Binding Timers}" SelectionMode="Single">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:FeedTimer">
-                        <Grid Padding="10">
-                            <Frame HeightRequest="125" Padding="0">
-                                <Grid Padding ="0" ColumnDefinitions="250, *">
-                                    <Label Text="{Binding Date}" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                    <!--<VerticalStackLayour Grid.Column="1" Padding="10" VerticalOptions="Center"/>-->
+        <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <ScrollView Grid.Row="0">
+                    <CollectionView Grid.Row="3" ItemsSource="{Binding Timers}" SelectionMode="Single">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:FeedTimer">
+                                <Grid Padding="10">
+                                    <Frame HeightRequest="125" Padding="0">
+                                        <Grid Padding ="0" ColumnDefinitions="250, *">
+                                        <Label Text="{Binding Date}" VerticalOptions="Center" HorizontalOptions="Center"/>                                                                                                                          
+                                            <!--<VerticalStackLayour Grid.Column="1" Padding="10" VerticalOptions="Center"/>-->
+                                        </Grid>
+                                    </Frame>
                                 </Grid>
-                            </Frame>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </ScrollView>
 
 
-        <ScrollView Grid.Row="1">
-            <StackLayout>
+            <ScrollView Grid.Row="1">
+                <StackLayout>
                 
-                <ActivityIndicator 
-                    IsVisible="{Binding IsBusy}"
-                    IsRunning="{Binding IsBusy}"
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="CenterAndExpand"
-                    Grid.RowSpan="2"
-                    Grid.ColumnSpan="2" />
-            <ImageButton
-                        Source="test.png"
-                        Grid.Row="0" 
-                        CornerRadius="35"
-                        Margin="0,0,20,22"
-                        WidthRequest="70" 
-                        HeightRequest="70" 
-                        VerticalOptions="Center"
-                        HorizontalOptions="Center"
-                        Command="{Binding CreateTimerCommand}"
-                        IsEnabled="{Binding IsNotBusy}"/>
-            </StackLayout>
-        </ScrollView>
-    </Grid>
+                    <ActivityIndicator 
+                        IsVisible="{Binding IsBusy}"
+                        IsRunning="{Binding IsBusy}"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        Grid.RowSpan="2"
+                        Grid.ColumnSpan="2" />
+                <ImageButton
+                            Source="test.png"
+                            Grid.Row="0" 
+                            CornerRadius="35"
+                            Margin="0,0,20,22"
+                            WidthRequest="70" 
+                            HeightRequest="70" 
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Command="{Binding CreateTimerCommand}"
+                            IsEnabled="{Binding IsNotBusy}"/>
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </RefreshView>
+
 
 </ContentPage>

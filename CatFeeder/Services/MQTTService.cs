@@ -13,11 +13,11 @@ namespace CatFeeder.Services
     
     public class MQTTService
     {
-        static MqttClient mqttClient = new MqttClient("tickrider.cloud.shiftr.io", 1883, false, null, null, MqttSslProtocols.None);
+        static MqttClient mqttClient = new MqttClient("kasp827b.cloud.shiftr.io", 1883, false, null, null, MqttSslProtocols.None);
         public async Task ConnectToMQTT()
         {
             if (!mqttClient.IsConnected)
-                mqttClient.Connect("AppUser", "tickrider", "110899");
+                mqttClient.Connect("AppUser", "kasp827b", "54q8XajqeRHAFT5W");
         }
 
         public async Task Feed()

@@ -6,34 +6,26 @@ namespace CatFeeder.Services
 {
     public class TimerService
     {
-        string _dbPath;
-
         public string StatusMessage { get; set; }
-        SQLiteConnection conn;
+        SQLiteAsyncConnection conn;
 
-        private void Init()
+        async Task Init()
         {
             if (conn != null)
                 return;
-            conn = new SQLiteConnection(_dbPath);
-            conn.CreateTable<CatFeeder.DbEntities.Timer>();
+
+            var dbPath = Path.Combine(FileSystem.AppDataDirectory, "MyData.db"); 
+            conn = new SQLiteAsyncConnection(dbPath);
+            await conn.CreateTableAsync<CatFeeder.DbEntities.Timer>();
         }
 
-        public TimerService(string dbPath)
-        {
-            _dbPath = dbPath;
-        }
-
-        public void AddNewTimer(DateTime date)
+        public async Task AddNewTimer(DateTime date, TimeSpan time)
         {
             int result = 0;
             try
             {
-                Init();
-                result = conn.Insert(new DbEntities.Timer { Date = date });
-                // TODO: Insert the new person into the database
-                result = 0;
-
+                await Init();
+                result = await conn.InsertAsync(new DbEntities.Timer { Date = date, Time = time });
                 StatusMessage = string.Format("{0} record(s) added (Name: {1})", result, date);
             }
             catch (Exception ex)
@@ -44,20 +36,23 @@ namespace CatFeeder.Services
 
 
 
-        public List<FeedTimer> GetAllTimers()
+        public async Task<List<FeedTimer>> GetAllTimers()
         {
-            // TODO: Init then retrieve a list of Person objects from the database into a list
             try
             {
-                Init();
-                return ParseToViewModelData(conn.Table<DbEntities.Timer>().ToList());
+                await Init();
+                var timers = await conn.Table<DbEntities.Timer>().ToListAsync();
+
+                if (timers.Count() == 0)
+                    return new List<FeedTimer>();
+
+                return ParseToViewModelData(timers);
             }
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
             }
-
-            return new List<FeedTimer>();
+            return null;
         }
 
         public List<FeedTimer> ParseToViewModelData(List<DbEntities.Timer> timers)
@@ -68,7 +63,7 @@ namespace CatFeeder.Services
                 FeedTimer feedTimer = new FeedTimer
                 {
                     Date = timer.Date.ToShortDateString(),
-                    Time = timer.Date.ToShortTimeString()
+                    Time = timer.Time.ToString()
                 };
                 feedTimers.Add(feedTimer);
             }
