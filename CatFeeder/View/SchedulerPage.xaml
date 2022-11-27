@@ -12,23 +12,28 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-
             <ScrollView Grid.Row="0">
                 <StackLayout>
-                    <ActivityIndicator 
-                            IsVisible="{Binding IsBusy}"
-                            IsRunning="{Binding IsBusy}"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="CenterAndExpand"
-                            Grid.Row="0"/>
 
-                    <CollectionView Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Timers}" SelectionMode="Single">
+
+                    <CollectionView x:Name="collection" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Timers}" SelectionMode="Single" ItemsLayout="VerticalList">
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="model:FeedTimer">
-                                <Grid Padding="10">
+                                <Grid Padding="5">
                                     <Frame HeightRequest="125" Padding="0">
-                                        <Grid Padding ="0" ColumnDefinitions="250, *">
-                                            <Label Text="{Binding Date}" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                        <Grid Padding ="0" ColumnDefinitions="290, *">
+                                            <Label Text="{Binding Time}" VerticalOptions="Center" Padding="20" FontSize="21"/>
+                                            <Label Text="{Binding Date}" VerticalOptions="End" Padding="20"/>
+                                            <ImageButton 
+                                                Source="trash.png" 
+                                                HeightRequest="18" 
+                                                WidthRequest="20" 
+                                                Grid.Column="1" 
+                                                Margin="0,10,0,0" 
+                                                IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:SchedulerPageViewModel}}, Path=IsNotBusy}" 
+                                                IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:SchedulerPageViewModel}}, Path=IsNotBusy}" 
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:SchedulerPageViewModel}}, Path=RemoveCommand}"
+                                                CommandParameter="{Binding .}"/>
                                         </Grid>
                                     </Frame>
                                 </Grid>
@@ -52,6 +57,14 @@
                             Command="{Binding CreateTimerCommand}"
                             IsVisible="{Binding IsNotBusy}"
                             IsEnabled="{Binding IsNotBusy}"/>
+
+            <ActivityIndicator 
+                            IsVisible="{Binding IsBusy}"
+                            IsRunning="{Binding IsBusy}"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="CenterAndExpand"
+                            Grid.RowSpan="2"
+                            Grid.ColumnSpan="2"/>
         </Grid>
     </RefreshView>
 </ContentPage>

@@ -53,6 +53,7 @@
 	  <None Remove="Resources\Images\plus.jpg" />
 	  <None Remove="Resources\Images\plusnew.svg" />
 	  <None Remove="Resources\Images\test.png" />
+	  <None Remove="Resources\Images\trash.png" />
 	</ItemGroup>
 
 	<ItemGroup>

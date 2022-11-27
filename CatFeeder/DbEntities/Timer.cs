@@ -12,5 +12,6 @@ namespace CatFeeder.DbEntities
         public DateTime Date { get; set; }
         [Required]
         public TimeSpan Time { get; set; }
+        public bool IsToggled { get; set; }
     }
 }

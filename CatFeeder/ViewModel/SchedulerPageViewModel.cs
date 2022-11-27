@@ -19,12 +19,12 @@ namespace CatFeeder.ViewModel
     {
         TimerService timerService;
 
-        public ObservableRangeCollection<FeedTimer> Timers { get; } = new();
+        public ObservableRangeCollection<FeedTimer> Timers { get; }
         public SchedulerPageViewModel(TimerService timerService)
         {
             Title = "Planlægning";
             this.timerService = timerService;
-            Refresh();
+            Timers = new ObservableRangeCollection<FeedTimer>();
         }
 
         [RelayCommand]
@@ -36,13 +36,13 @@ namespace CatFeeder.ViewModel
             try
             {
                 IsBusy = true;
+
+                Timers.Clear();
+
                 var timers = await timerService.GetAllTimers();
+                Timers.AddRange(timers);
 
-                if (Timers.Count != 0)
-                    Timers.Clear();
-
-                foreach (var timer in timers)
-                    Timers.Add(timer);
+                IsBusy = false;
 
             }
             catch (Exception ex)
@@ -75,16 +75,22 @@ namespace CatFeeder.ViewModel
         }
 
         [RelayCommand]
+        async Task Remove(FeedTimer timer)
+        {
+            await timerService.RemoveTimer(timer.Id);
+            await Refresh();
+        }
+
+        [RelayCommand]
         async Task Refresh()
         {
             IsBusy = true;
-            
-            Timers.Clear();
-            
-            var timers = await timerService.GetAllTimers();
-            
-            Timers.AddRange(timers);
 
+            var timers = await timerService.GetAllTimers();
+            if (Timers.Count != 0)
+                Timers.Clear();
+
+            Timers.AddRange(timers);
             IsBusy = false;
         }
     }
