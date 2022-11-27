@@ -12,7 +12,6 @@ using System.Windows.Input;
 using CatFeeder.View;
 using CatFeeder.Models;
 using MvvmHelpers;
-using CatFeeder.Interfaces;
 
 namespace CatFeeder.ViewModel
 {
