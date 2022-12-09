@@ -7,25 +7,26 @@ namespace CatFeeder.Services
     public class TimerService
     {
         public string StatusMessage { get; set; }
-        SQLiteAsyncConnection conn;
+        private readonly SQLiteAsyncConnection conn;
 
-        async Task Init()
+        public TimerService()
         {
-            if (conn != null)
-                return;
-
-            var dbPath = Path.Combine(FileSystem.AppDataDirectory, "MyData.db"); 
-            conn = new SQLiteAsyncConnection(dbPath);
-            await conn.CreateTableAsync<CatFeeder.DbEntities.Timer>();
-        }
-
-        public async Task AddNewTimer(DateTime date, TimeSpan time)
-        {
-            int result = 0;
             try
             {
-                await Init();
-                result = await conn.InsertAsync(new DbEntities.Timer { Date = date, Time = time, IsToggled = true });
+                var dbPath = Path.Combine(FileSystem.AppDataDirectory, "MyData.db");
+                conn = new SQLiteAsyncConnection(dbPath);
+                conn.CreateTableAsync<CatFeeder.DbEntities.Timer>().Wait();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to initialize database. {0}", ex.Message);
+            }
+        }
+        public async Task AddNewTimer(DateTime date, TimeSpan time)
+        {
+            try
+            {
+                var result = await conn.InsertAsync(new DbEntities.Timer { Date = date, Time = time, IsToggled = true });
                 StatusMessage = string.Format("{0} record(s) added (Name: {1})", result, date);
             }
             catch (Exception ex)
@@ -38,8 +39,7 @@ namespace CatFeeder.Services
         {
             try
             {
-                await Init();
-                var result = await conn.UpdateAsync(timer);
+                await conn.UpdateAsync(timer);
             }
             catch (Exception ex)
             {
@@ -47,30 +47,34 @@ namespace CatFeeder.Services
             }
         }
 
-
-
         public async Task<IEnumerable<FeedTimer>> GetAllTimers()
         {
             try
             {
-                await Init();
-                var timers = await conn.Table<DbEntities.Timer>().Where(x => x.Date >= DateTime.Today).OrderBy(x => x.Date).ToListAsync();
+                var timers = await conn.Table<DbEntities.Timer>()
+                    .Where(x => x.Date >= DateTime.Today)
+                    .OrderBy(x => x.Date)
+                    .ToListAsync();
 
-                if (timers.Count() == 0)
-                    return new List<FeedTimer>();
+                if (timers == null || !timers.Any())
+                    return Enumerable.Empty<FeedTimer>();
 
-                return ParseToViewModelData(timers);
+                return timers.Select(timer => new FeedTimer
+                {
+                    Id = timer.Id,
+                    Date = timer.Date.ToShortDateString(),
+                    Time = timer.Time.ToString()
+                });
             }
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                return Enumerable.Empty<FeedTimer>();
             }
-            return null;
         }
 
         public async Task RemoveTimer(int id)
         {
-            await Init();
             await conn.DeleteAsync<DbEntities.Timer>(id);
         }
 

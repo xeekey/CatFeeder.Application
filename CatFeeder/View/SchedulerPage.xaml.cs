@@ -1,5 +1,4 @@
 ﻿using CatFeeder.ViewModel;
-using Java.Lang;
 
 namespace CatFeeder.View;
 
