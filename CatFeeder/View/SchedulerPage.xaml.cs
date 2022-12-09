@@ -15,8 +15,8 @@ public partial class SchedulerPage : ContentPage
 		base.OnAppearing();
 
 		var vm = (SchedulerPageViewModel)BindingContext;
-		if (vm.Timers.Count == 0)
-			await vm.RefreshCommand.ExecuteAsync(nameof(SchedulerPageViewModel));
+		//if (vm.Timers.Count == 0)
+		//	await vm.RefreshCommand.ExecuteAsync(nameof(SchedulerPageViewModel));
 
     }
 

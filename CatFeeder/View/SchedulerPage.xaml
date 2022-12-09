@@ -5,8 +5,35 @@
              xmlns:viewmodel="clr-namespace:CatFeeder.ViewModel"
              xmlns:model="clr-namespace:CatFeeder.Models"
              x:DataType="viewmodel:SchedulerPageViewModel">
+    <StackLayout>
+        <Label Text="New Alarm" FontAttributes="Bold" />
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Time" />
+            <TimePicker Time="{Binding AlarmTime}" />
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Name" />
+            <Entry Text="{Binding AlarmName}" />
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Repeat" />
+            <Picker x:Name="RepeatPicker" ItemsSource="{Binding RepeatOptions}" SelectedItem="{Binding SelectedRepeatOption}" />
+        </StackLayout>
+        <Button Text="Save" Command="{Binding SaveAlarmCommand}" />
+        <ListView ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding AlarmName}" Detail="{Binding AlarmTime, StringFormat='h:mm a'}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Text="Delete" Command="{Binding DeleteAlarmCommand}" IsVisible="{Binding HasSelectedAlarm}" />
+    </StackLayout>
+</ContentPage>
 
-    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
+
+
+    <!--<RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -66,5 +93,5 @@
                             Grid.RowSpan="2"
                             Grid.ColumnSpan="2"/>
         </Grid>
-    </RefreshView>
-</ContentPage>
+    </RefreshView>-->
+<!--</ContentPage>-->

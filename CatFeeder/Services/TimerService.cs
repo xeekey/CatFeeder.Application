@@ -1,6 +1,9 @@
-﻿using SQLite;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using CatFeeder.Models;
+using SQLite;
 
 namespace CatFeeder.Services
 {
@@ -15,18 +18,19 @@ namespace CatFeeder.Services
             {
                 var dbPath = Path.Combine(FileSystem.AppDataDirectory, "MyData.db");
                 conn = new SQLiteAsyncConnection(dbPath);
-                conn.CreateTableAsync<CatFeeder.DbEntities.Timer>().Wait();
+                conn.CreateTableAsync<Alarm>().Wait();
             }
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to initialize database. {0}", ex.Message);
             }
         }
+
         public async Task AddNewTimer(DateTime date, TimeSpan time)
         {
             try
             {
-                var result = await conn.InsertAsync(new DbEntities.Timer { Date = date, Time = time, IsToggled = true });
+                var result = await conn.InsertAsync(new Alarm { Date = date, AlarmTime = time,});
                 StatusMessage = string.Format("{0} record(s) added (Name: {1})", result, date);
             }
             catch (Exception ex)
@@ -35,7 +39,7 @@ namespace CatFeeder.Services
             }
         }
 
-        public async Task UpdateTimer(FeedTimer timer)
+        public async Task UpdateTimer(Alarm timer)
         {
             try
             {
@@ -47,51 +51,30 @@ namespace CatFeeder.Services
             }
         }
 
-        public async Task<IEnumerable<FeedTimer>> GetAllTimers()
+        public async Task<IEnumerable<Alarm>> GetAllTimers()
         {
             try
             {
-                var timers = await conn.Table<DbEntities.Timer>()
+                var alarms = await conn.Table<Alarm>()
                     .Where(x => x.Date >= DateTime.Today)
                     .OrderBy(x => x.Date)
                     .ToListAsync();
 
-                if (timers == null || !timers.Any())
-                    return Enumerable.Empty<FeedTimer>();
+                if (alarms == null || !alarms.Any())
+                    return Enumerable.Empty<Alarm>();
 
-                return timers.Select(timer => new FeedTimer
-                {
-                    Id = timer.Id,
-                    Date = timer.Date.ToShortDateString(),
-                    Time = timer.Time.ToString()
-                });
+                return alarms;
             }
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
-                return Enumerable.Empty<FeedTimer>();
+                return Enumerable.Empty<Alarm>();
             }
         }
 
         public async Task RemoveTimer(int id)
         {
-            await conn.DeleteAsync<DbEntities.Timer>(id);
-        }
-
-        public IEnumerable<FeedTimer> ParseToViewModelData(IEnumerable<DbEntities.Timer> timers)
-        {
-            List<FeedTimer> feedTimers = new List<FeedTimer>();
-            foreach (var timer in timers)
-            {
-                FeedTimer feedTimer = new FeedTimer
-                {
-                    Id = timer.Id,
-                    Date = timer.Date.ToShortDateString(),
-                    Time = timer.Time.ToString()
-                };
-                feedTimers.Add(feedTimer);
-            }
-            return feedTimers;
+            await conn.DeleteAsync<Alarm>(id);
         }
     }
 }
