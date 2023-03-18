@@ -13,14 +13,15 @@ namespace CatFeeder
     {
         public override async void OnReceive(Context context, Intent intent)
         {
-            string alarmTime = intent.GetStringExtra("AlarmTime"); // for debugging
-            Log.Debug("FeedAlarmReceiver", $"Alarm scheduled for {alarmTime} triggered at {DateTime.Now}"); // for debugging
+            SendFeedRequest();
+            SendNotification(context);
+        }
+
+        private void SendFeedRequest()
+        {
             MQTTService mqttService = new MQTTService();
             await mqttService.ConnectToMQTT();
             await mqttService.Feed();
-
-            // Send a notification to the user
-            SendNotification(context);
         }
 
         private void SendNotification(Context context)
