@@ -74,6 +74,13 @@ namespace CatFeeder.ViewModel
             }
         }
 
+        //[RelayCommand]
+        //async Task Toggle(FeedTimer timer)
+        //{
+        //    timer.IsToggled = !timer.IsToggled;
+        //    await timerService.UpdateTimer(timer);
+        //}
+
         [RelayCommand]
         async Task Remove(FeedTimer timer)
         {

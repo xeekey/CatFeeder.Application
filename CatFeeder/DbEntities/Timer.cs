@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CatFeeder.Models;
 using SQLite;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CatFeeder.DbEntities
 {
@@ -9,9 +11,8 @@ namespace CatFeeder.DbEntities
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         [Required]
-        public DateTime Date { get; set; }
-        [Required]
         public TimeSpan Time { get; set; }
+        public int RepeatDays { get; set; }
         public bool IsToggled { get; set; }
     }
 }

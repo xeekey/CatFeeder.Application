@@ -23,7 +23,10 @@
                                     <Frame HeightRequest="125" Padding="0">
                                         <Grid Padding ="0" ColumnDefinitions="290, *">
                                             <Label Text="{Binding Time}" VerticalOptions="Center" Padding="20" FontSize="21"/>
-                                            <Label Text="{Binding Date}" VerticalOptions="End" Padding="20"/>
+                                            <Switch 
+                                                IsToggled="{Binding IsToggled}" 
+                                                Grid.Column="1" 
+                                                Margin="0,10,0,0"/>
                                             <ImageButton 
                                                 Source="trash.png" 
                                                 HeightRequest="18" 

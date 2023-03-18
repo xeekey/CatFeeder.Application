@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CatFeeder.View.UpdateTimePage"
+             Title="Update Timer"
+             xmlns:viewmodel="clr-namespace:CatFeeder.ViewModel"
+             x:DataType="viewmodel:UpdateTimePageViewModel">
+
+    <ContentPage.Content>
+        <StackLayout Padding="20">
+            <Label Text="Time:"
+                   Style="{StaticResource LabelMedium}"/>
+            <TimePicker Time="{Binding Time}" />
+
+            <Label Text="Repeat Days:"
+                   Style="{StaticResource LabelMedium}"/>
+            <StackLayout Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding Monday}" />
+                <CheckBox IsChecked="{Binding Tuesday}" />
+                <CheckBox IsChecked="{Binding Wednesday}" />
+                <CheckBox IsChecked="{Binding Thursday}" />
+                <CheckBox IsChecked="{Binding Friday}" />
+                <CheckBox IsChecked="{Binding Saturday}" />
+                <CheckBox IsChecked="{Binding Sunday}" />
+            </StackLayout>
+
+            <ActivityIndicator
+                HorizontalOptions="Center"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="Center" />
+
+            <Button
+                Padding="20,0"
+                Command="{Binding UpdateTimerCommand}"
+                HorizontalOptions="Center"
+                IsEnabled="{Binding IsNotBusy}"
+                Text="Save"
+                VerticalOptions="EndAndExpand"
+                Style="{StaticResource ButtonOutline}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

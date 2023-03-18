@@ -1,29 +1,38 @@
 ﻿using CatFeeder.Models;
+using CatFeeder.Platforms.Android;
 using CatFeeder.Services;
 using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace CatFeeder.ViewModel
 {
-    [QueryProperty(nameof(Date), nameof(Time))]
     public partial class CreateTimerPageViewModel : BaseViewModel
     {
-        DateTime date;
-        TimeSpan time;
-        
-        public DateTime Date { get => date; set => SetProperty(ref date, value); }
-        public TimeSpan Time { get => time; set => SetProperty(ref time, value); }
+        private TimeSpan time;
 
-        TimerService timerService;
+        public TimeSpan Time
+        {
+            get => time;
+            set => SetProperty(ref time, value);
+        }
 
-        public CreateTimerPageViewModel(TimerService TimerService) 
+        public bool Monday { get; set; }
+        public bool Tuesday { get; set; }
+        public bool Wednesday { get; set; }
+        public bool Thursday { get; set; }
+        public bool Friday { get; set; }
+        public bool Saturday { get; set; }
+        public bool Sunday { get; set; }
+
+        private TimerService timerService;
+
+        public CreateTimerPageViewModel(TimerService TimerService)
         {
             Title = "Opret planlægning";
             timerService = TimerService;
         }
-
-        [ObservableProperty]
-        TimeSpan currentTime = DateTime.Now.TimeOfDay;
 
         [RelayCommand]
         async Task CreateTimer()
@@ -33,19 +42,19 @@ namespace CatFeeder.ViewModel
             try
             {
                 IsBusy = true;
-                await timerService.AddNewTimer(date, time);
-                IsBusy = false;
 
+                // Pass the days of the week properties along with the time to the AddNewTimer method
+                await timerService.AddNewTimer(new FeedTimer { Time = time, RepeatDays = new RepeatDays { Monday = Monday, Tuesday = Tuesday, Wednesday = Wednesday, Thursday = Thursday, Friday = Friday, Saturday = Saturday, Sunday = Sunday }});
+                FeedAlarmScheduler.ScheduleFeedAlarm(new FeedTimer { Time = time, RepeatDays = new RepeatDays { Monday = Monday, Tuesday = Tuesday, Wednesday = Wednesday, Thursday = Thursday, Friday = Friday, Saturday = Saturday, Sunday = Sunday }});
+
+                IsBusy = false;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                System.Diagnostics.Debug.WriteLine(ex);
                 await Shell.Current.DisplayAlert("Error", "Something went wrong! Contact Kasper", "OK!");
             }
             finally { IsBusy = false; }
         }
-
-
     }
-
 }

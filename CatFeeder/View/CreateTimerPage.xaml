@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CatFeeder.View.CreateTimerPage"
@@ -7,19 +6,54 @@
              x:DataType="viewmodel:CreateTimerPageViewModel">
 
     <ContentPage.Content>
-        <StackLayout Padding="20">
-            <Label Text="Name:"
-                   Style="{StaticResource LabelMedium}"/>
-            <DatePicker Date="{Binding Date}" />
-            <TimePicker Time="{Binding Time}" />
+        <Grid Padding="20" RowSpacing="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Text="Time:" Style="{StaticResource LabelMedium}" />
+            <TimePicker Grid.Row="1" Time="{Binding Time}" />
+
+            <Grid Grid.Row="2" ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Text="Mon" />
+                <Label Grid.Column="1" Text="Tue" />
+                <Label Grid.Column="2" Text="Wed" />
+                <Label Grid.Column="3" Text="Thu" />
+                <Label Grid.Column="4" Text="Fri" />
+                <Label Grid.Column="5" Text="Sat" />
+                <Label Grid.Column="6" Text="Sun" />
+
+                <CheckBox Grid.Column="0" IsChecked="{Binding Monday}" />
+                <CheckBox Grid.Column="1" IsChecked="{Binding Tuesday}" />
+                <CheckBox Grid.Column="2" IsChecked="{Binding Wednesday}" />
+                <CheckBox Grid.Column="3" IsChecked="{Binding Thursday}" />
+                <CheckBox Grid.Column="4" IsChecked="{Binding Friday}" />
+                <CheckBox Grid.Column="5" IsChecked="{Binding Saturday}" />
+                <CheckBox Grid.Column="6" IsChecked="{Binding Sunday}" />
+            </Grid>
 
             <ActivityIndicator
+                Grid.Row="3"
                 HorizontalOptions="Center"
                 IsRunning="{Binding IsBusy}"
                 IsVisible="{Binding IsBusy}"
                 VerticalOptions="Center" />
 
             <Button
+                Grid.Row="4"
                 Padding="20,0"
                 Command="{Binding CreateTimerCommand}"
                 HorizontalOptions="Center"
@@ -27,6 +61,6 @@
                 Text="Save"
                 VerticalOptions="EndAndExpand"
                 Style="{StaticResource ButtonOutline}"/>
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -1,5 +1,9 @@
 ﻿using SQLite;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using CatFeeder.Models;
 
 namespace CatFeeder.Services
@@ -22,16 +26,23 @@ namespace CatFeeder.Services
                 StatusMessage = string.Format("Failed to initialize database. {0}", ex.Message);
             }
         }
-        public async Task AddNewTimer(DateTime date, TimeSpan time)
+
+        public async Task AddNewTimer(FeedTimer feedTimer)
         {
             try
             {
-                var result = await conn.InsertAsync(new DbEntities.Timer { Date = date, Time = time, IsToggled = true });
-                StatusMessage = string.Format("{0} record(s) added (Name: {1})", result, date);
+                var result = await conn.InsertAsync(new DbEntities.Timer
+                {
+                    Time = feedTimer.Time,
+                    RepeatDays = feedTimer.RepeatDays.ToInt(),
+                    IsToggled = feedTimer.IsToggled
+                });
+
+                StatusMessage = string.Format("{0} record(s) added (Name: {1})", result, feedTimer.Time);
             }
             catch (Exception ex)
             {
-                StatusMessage = string.Format("Failed to add {0}. Error: {1}", date, ex.Message);
+                StatusMessage = string.Format("Failed to add {0}. Error: {1}", feedTimer.Time, ex.Message);
             }
         }
 
@@ -43,7 +54,7 @@ namespace CatFeeder.Services
             }
             catch (Exception ex)
             {
-                StatusMessage = string.Format("Failed to edit {0}. Error: {1}", timer.Date, ex.Message);
+                StatusMessage = string.Format("Failed to edit {0}. Error: {1}", timer.Time, ex.Message);
             }
         }
 
@@ -51,10 +62,7 @@ namespace CatFeeder.Services
         {
             try
             {
-                var timers = await conn.Table<DbEntities.Timer>()
-                    .Where(x => x.Date >= DateTime.Today)
-                    .OrderBy(x => x.Date)
-                    .ToListAsync();
+                var timers = await conn.Table<DbEntities.Timer>().ToListAsync();
 
                 if (timers == null || !timers.Any())
                     return Enumerable.Empty<FeedTimer>();
@@ -62,8 +70,9 @@ namespace CatFeeder.Services
                 return timers.Select(timer => new FeedTimer
                 {
                     Id = timer.Id,
-                    Date = timer.Date.ToShortDateString(),
-                    Time = timer.Time.ToString()
+                    Time = timer.Time,
+                    RepeatDays = RepeatDays.FromInt(timer.RepeatDays),
+                    IsToggled = timer.IsToggled
                 });
             }
             catch (Exception ex)
@@ -76,22 +85,6 @@ namespace CatFeeder.Services
         public async Task RemoveTimer(int id)
         {
             await conn.DeleteAsync<DbEntities.Timer>(id);
-        }
-
-        public IEnumerable<FeedTimer> ParseToViewModelData(IEnumerable<DbEntities.Timer> timers)
-        {
-            List<FeedTimer> feedTimers = new List<FeedTimer>();
-            foreach (var timer in timers)
-            {
-                FeedTimer feedTimer = new FeedTimer
-                {
-                    Id = timer.Id,
-                    Date = timer.Date.ToShortDateString(),
-                    Time = timer.Time.ToString()
-                };
-                feedTimers.Add(feedTimer);
-            }
-            return feedTimers;
         }
     }
 }
