@@ -17,7 +17,7 @@ namespace CatFeeder
             SendNotification(context);
         }
 
-        private void SendFeedRequest()
+        private async void SendFeedRequest()
         {
             MQTTService mqttService = new MQTTService();
             await mqttService.ConnectToMQTT();
