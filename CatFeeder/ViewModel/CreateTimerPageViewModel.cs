@@ -1,10 +1,6 @@
 ﻿using CatFeeder.Models;
-using CatFeeder.Platforms.Android;
 using CatFeeder.Services;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace CatFeeder.ViewModel
 {
@@ -44,8 +40,8 @@ namespace CatFeeder.ViewModel
                 IsBusy = true;
 
                 // Pass the days of the week properties along with the time to the AddNewTimer method
-                await timerService.AddNewTimer(new FeedTimer { Time = time, RepeatDays = new RepeatDays { Monday = Monday, Tuesday = Tuesday, Wednesday = Wednesday, Thursday = Thursday, Friday = Friday, Saturday = Saturday, Sunday = Sunday }});
-                FeedAlarmScheduler.ScheduleFeedAlarm(new FeedTimer { Time = time, RepeatDays = new RepeatDays { Monday = Monday, Tuesday = Tuesday, Wednesday = Wednesday, Thursday = Thursday, Friday = Friday, Saturday = Saturday, Sunday = Sunday }});
+                FeedTimer timer = await timerService.AddNewTimer(new FeedTimer { Time = time, RepeatDays = new RepeatDays { Monday = Monday, Tuesday = Tuesday, Wednesday = Wednesday, Thursday = Thursday, Friday = Friday, Saturday = Saturday, Sunday = Sunday }});
+                CatFeeder.Platforms.Android.FeedAlarmScheduler.ScheduleFeedAlarm(timer);
 
                 IsBusy = false;
             }

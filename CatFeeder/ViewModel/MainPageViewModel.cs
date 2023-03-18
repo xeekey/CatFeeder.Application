@@ -34,7 +34,7 @@ namespace CatFeeder.ViewModel
             try
             {
                 IsBusy = true;
-                await mqttService.Feed();
+                //await mqttService.Feed();
             }
             catch (Exception ex)
             {

@@ -27,22 +27,29 @@ namespace CatFeeder.Services
             }
         }
 
-        public async Task AddNewTimer(FeedTimer feedTimer)
+        public async Task<FeedTimer> AddNewTimer(FeedTimer feedTimer)
         {
             try
             {
-                var result = await conn.InsertAsync(new DbEntities.Timer
+                DbEntities.Timer timerToInsert = new DbEntities.Timer
                 {
                     Time = feedTimer.Time,
                     RepeatDays = feedTimer.RepeatDays.ToInt(),
                     IsToggled = feedTimer.IsToggled
-                });
+                };
+
+                int result = await conn.InsertAsync(timerToInsert);
 
                 StatusMessage = string.Format("{0} record(s) added (Name: {1})", result, feedTimer.Time);
+
+                feedTimer.Id = timerToInsert.Id; // Update the Id of the passed feedTimer object
+
+                return feedTimer;
             }
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to add {0}. Error: {1}", feedTimer.Time, ex.Message);
+                return null;
             }
         }
 
