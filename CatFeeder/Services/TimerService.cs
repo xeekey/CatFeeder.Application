@@ -10,7 +10,7 @@ namespace CatFeeder.Services
 {
     public class TimerService
     {
-        public string StatusMessage { get; set; }
+        public string StatusMessage { get; private set; }
         private readonly SQLiteAsyncConnection conn;
 
         public TimerService()
@@ -69,7 +69,7 @@ namespace CatFeeder.Services
         {
             try
             {
-                var timers = await conn.Table<DbEntities.Timer>().ToListAsync();
+                var timers = await Task.Run(() => conn.Table<DbEntities.Timer>().ToListAsync());
 
                 if (timers == null || !timers.Any())
                     return Enumerable.Empty<FeedTimer>();
