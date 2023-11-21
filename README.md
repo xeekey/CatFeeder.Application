@@ -16,6 +16,7 @@
 
   <p align="center">
     Part of a distributed system with one very important goal in mind, to feed the cat.
+    <br />
     This part is an automated cat feeder application built in .NET MAUI with scheduling and remote feeding capabilities.
     <br />
     <a href="https://github.com/xeekey/CatFeeder"><strong>Explore the docs »</strong></a>
