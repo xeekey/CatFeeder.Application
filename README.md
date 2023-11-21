@@ -12,10 +12,11 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a> -->
 
-<h3 align="center">CatFeeder</h3>
+<h3 align="center">CatFeeder (W.I.P)</h3>
 
   <p align="center">
-    An automated cat feeder application with scheduling and remote feeding capabilities.
+    Part of a distributed system with one very important goal in mind, to feed the cat.
+    This part is an automated cat feeder application built in .NET MAUI with scheduling and remote feeding capabilities.
     <br />
     <a href="https://github.com/xeekey/CatFeeder"><strong>Explore the docs »</strong></a>
     <br />
