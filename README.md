@@ -116,16 +116,16 @@ Project Link: [https://github.com/xeekey/CatFeeder](https://github.com/xeekey/Ca
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/xeekey/CatFeeder.svg?style=for-the-badge
-[contributors-url]: https://github.com/xeekey/CatFeeder/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/xeekey/CatFeeder.svg?style=for-the-badge
-[forks-url]: https://github.com/xeekey/CatFeeder/network/members
-[stars-shield]: https://img.shields.io/github/stars/xeekey/CatFeeder.svg?style=for-the-badge
-[stars-url]: https://github.com/xeekey/CatFeeder/stargazers
-[issues-shield]: https://img.shields.io/github/issues/xeekey/CatFeeder.svg?style=for-the-badge
-[issues-url]: https://github.com/xeekey/CatFeeder/issues
-[license-shield]: https://img.shields.io/github/license/xeekey/CatFeeder.svg?style=for-the-badge
-[license-url]: https://github.com/xeekey/CatFeeder/main/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/xeekey/codeparser.svg?style=for-the-badge
+[contributors-url]: https://github.com/xeekey/catfeeder/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/xeekey/catfeeder.svg?style=for-the-badge
+[forks-url]: https://github.com/xeekey/catfeeder/network/members
+[stars-shield]: https://img.shields.io/github/stars/xeekey/catfeeder.svg?style=for-the-badge
+[stars-url]: https://github.com/xeekey/codeparser/stargazers
+[issues-shield]: https://img.shields.io/github/issues/xeekey/catfeeder.svg?style=for-the-badge
+[issues-url]: https://github.com/xeekey/catfeeder/issues
+[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
+[license-url]: https://github.com/xeekey/catfeeder/main/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/kasper-hjort-jæger
 [product-screenshot]: images/screenshot.png
